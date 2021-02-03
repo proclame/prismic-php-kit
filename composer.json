@@ -1,5 +1,5 @@
 {
-    "name": "prismic/php-sdk",
+    "name": "proclame/prismic-php-sdk",
     "description": "PHP development kit for Prismic",
     "config": {
         "sort-packages": true
