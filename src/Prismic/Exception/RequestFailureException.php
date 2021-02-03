@@ -5,6 +5,7 @@ namespace Prismic\Exception;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\TransferException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -24,7 +25,7 @@ class RequestFailureException extends RuntimeException
         if ($e instanceof RequestException) {
             return static::fromGuzzleRequestException($e);
         }
-        $exception = new static('Api Request Failed', 500, $e);
+        $exception = new static('Api Request Failed: ' . $e->getMessage(), 500, $e);
         $exception->guzzleException = $e;
         return $exception;
     }
@@ -64,7 +65,7 @@ class RequestFailureException extends RuntimeException
 
     public function getRequest() :? RequestInterface
     {
-        if (! $this->guzzleException instanceof RequestException) {
+        if (! $this->guzzleException instanceof TransferException) {
             return null;
         }
         return $this->guzzleException->getRequest();
